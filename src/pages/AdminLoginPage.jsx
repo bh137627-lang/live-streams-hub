@@ -106,11 +106,18 @@ export default function AdminLoginPage() {
         {/* Demo credentials hint */}
         <div className="mt-8 p-4 bg-primary/10 rounded-lg border border-primary/30">
           <p className="text-xs text-center text-muted-foreground">
-            💡 معلومات الدخول التجريبية:
+            💡 معلومات الدخول:
             <br />
-            <span className="font-mono text-primary">admin@streamhub.com</span>
+            <span className="font-mono text-primary font-bold">admin@streamhub.com</span>
             <br />
-            <span className="font-mono text-primary">StreamHub2024!</span>
+            <span className="font-mono text-primary font-bold">admin123</span>
+            <br />
+            <br />
+            أو استخدم:
+            <br />
+            <span className="font-mono text-secondary font-bold">owner@streamhub.com</span>
+            <br />
+            <span className="font-mono text-secondary font-bold">123456</span>
           </p>
         </div>
       </Card>
