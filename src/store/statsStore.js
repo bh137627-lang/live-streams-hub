@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
 const useStatsStore = create(
   persist(
@@ -53,7 +53,8 @@ const useStatsStore = create(
       },
     }),
     {
-      name: 'stats-storage',
+      name: 'streamhub-stats-storage',
+      storage: createJSONStorage(() => localStorage),
     }
   )
 );
