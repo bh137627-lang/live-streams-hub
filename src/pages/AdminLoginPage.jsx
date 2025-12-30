@@ -14,45 +14,55 @@ export default function AdminLoginPage() {
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = async (e) => {
+    if (e) e.preventDefault();
+    
     setLoading(true);
     
+    // محاكاة تأخير بسيط
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
     try {
-      const result = login(email, password);
+      const result = login(email.trim(), password.trim());
       
-      if (result.success) {
-        toast.success('مرحباً بك! تم تسجيل الدخول بنجاح');
+      if (result && result.success) {
+        toast.success('مرحباً بك! تم تسجيل الدخول بنجاح 👑');
         setTimeout(() => {
           navigate('/admin/dashboard');
-        }, 500);
+        }, 800);
       } else {
-        toast.error(result.error);
+        toast.error('بيانات الدخول غير صحيحة. جرب: admin@streamhub.com / admin123');
+        setLoading(false);
       }
     } catch (error) {
-      toast.error('حدث خطأ أثناء تسجيل الدخول');
-    } finally {
+      console.error('Login error:', error);
+      toast.error('حدث خطأ. جرب مرة أخرى');
       setLoading(false);
     }
   };
 
-  const quickLogin = () => {
+  const quickLogin = async () => {
+    setLoading(true);
     setEmail('admin@streamhub.com');
     setPassword('admin123');
-    setLoading(true);
+    
+    await new Promise(resolve => setTimeout(resolve, 300));
     
     try {
       const result = login('admin@streamhub.com', 'admin123');
       
-      if (result.success) {
-        toast.success('مرحباً بك! تم تسجيل الدخول بنجاح');
+      if (result && result.success) {
+        toast.success('مرحباً بك! تم تسجيل الدخول بنجاح 👑');
         setTimeout(() => {
           navigate('/admin/dashboard');
-        }, 500);
+        }, 800);
+      } else {
+        toast.error('حدث خطأ في تسجيل الدخول');
+        setLoading(false);
       }
     } catch (error) {
-      toast.error('حدث خطأ');
-    } finally {
+      console.error('Quick login error:', error);
+      toast.error('حدث خطأ. جرب مرة أخرى');
       setLoading(false);
     }
   };
@@ -91,7 +101,7 @@ export default function AdminLoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pr-10 text-right"
-                required
+                disabled={loading}
               />
             </div>
           </div>
@@ -108,7 +118,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="pr-10 text-right"
-                required
+                disabled={loading}
               />
             </div>
           </div>
@@ -132,7 +142,7 @@ export default function AdminLoginPage() {
             disabled={loading}
           >
             <Crown className="w-5 h-5 ml-2" />
-            دخول سريع (المالك)
+            دخول سريع للمالك (بنقرة واحدة)
           </Button>
         </form>
 
@@ -142,6 +152,7 @@ export default function AdminLoginPage() {
             variant="ghost"
             onClick={() => navigate('/')}
             className="text-muted-foreground hover:text-foreground"
+            disabled={loading}
           >
             العودة للصفحة الرئيسية
           </Button>
@@ -150,18 +161,11 @@ export default function AdminLoginPage() {
         {/* Demo credentials hint */}
         <div className="mt-8 p-4 bg-primary/10 rounded-lg border border-primary/30">
           <p className="text-xs text-center text-muted-foreground">
-            💡 معلومات الدخول:
+            💡 بيانات الدخول:
             <br />
-            <span className="font-mono text-primary font-bold">admin@streamhub.com</span>
+            <span className="font-mono text-primary font-bold text-sm">admin@streamhub.com</span>
             <br />
-            <span className="font-mono text-primary font-bold">admin123</span>
-            <br />
-            <br />
-            أو استخدم:
-            <br />
-            <span className="font-mono text-secondary font-bold">owner@streamhub.com</span>
-            <br />
-            <span className="font-mono text-secondary font-bold">123456</span>
+            <span className="font-mono text-primary font-bold text-sm">admin123</span>
           </p>
         </div>
       </Card>
