@@ -1,0 +1,35 @@
+{
+  "short_name": "StreamHub",
+  "name": "StreamHub - منصة البث المباشر",
+  "description": "شاهد البثوث المباشرة من جميع المنصات في مكان واحد",
+  "icons": [
+    {
+      "src": "/logo192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#8b2be2",
+  "background_color": "#0f0f14",
+  "orientation": "portrait-primary",
+  "dir": "rtl",
+  "lang": "ar",
+  "scope": "/",
+  "categories": ["entertainment", "games"],
+  "screenshots": [
+    {
+      "src": "/screenshot1.png",
+      "sizes": "540x720",
+      "type": "image/png"
+    }
+  ]
+}
