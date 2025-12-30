@@ -18,9 +18,19 @@ const games = [
   { id: 'Call of Duty', name: 'Call of Duty' },
   { id: 'FIFA 24', name: 'FIFA 24' },
   { id: 'Minecraft', name: 'Minecraft' },
-  { id: 'Free Fire', name: 'Free Fire' },
+  { id: 'CS2', name: 'Counter-Strike 2' },
+  { id: 'GTA V', name: 'GTA V' },
+  { id: 'Apex Legends', name: 'Apex Legends' },
+  { id: 'Dota 2', name: 'Dota 2' },
   { id: 'PUBG Mobile', name: 'PUBG Mobile' },
+  { id: 'Free Fire', name: 'Free Fire' },
+  { id: 'Mobile Legends', name: 'Mobile Legends' },
   { id: 'Call of Duty Mobile', name: 'Call of Duty Mobile' },
+  { id: 'Among Us', name: 'Among Us' },
+  { id: 'Roblox', name: 'Roblox' },
+  { id: 'Rocket League', name: 'Rocket League' },
+  { id: 'Overwatch 2', name: 'Overwatch 2' },
+  { id: 'World of Warcraft', name: 'World of Warcraft' },
 ];
 
 export default function FilterBar({ selectedPlatform, setSelectedPlatform, selectedGame, setSelectedGame }) {
