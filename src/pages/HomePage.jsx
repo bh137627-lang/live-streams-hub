@@ -1,15 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar';
 import HeroSection from '../components/HeroSection';
 import StreamGrid from '../components/StreamGrid';
 import FilterBar from '../components/FilterBar';
 import Footer from '../components/Footer';
 import { mockStreams } from '../data/mockData';
+import useStatsStore from '../store/statsStore';
 
 export default function HomePage() {
   const [selectedPlatform, setSelectedPlatform] = useState('all');
   const [selectedGame, setSelectedGame] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  
+  const recordVisit = useStatsStore((state) => state.recordVisit);
+  const decrementViewers = useStatsStore((state) => state.decrementViewers);
+
+  // تسجيل الزيارة عند دخول الصفحة
+  useEffect(() => {
+    recordVisit();
+    
+    // تقليل عدد المشاهدين عند مغادرة الصفحة
+    return () => {
+      decrementViewers();
+    };
+  }, [recordVisit, decrementViewers]);
 
   // Filter streams based on selections
   const filteredStreams = mockStreams.filter(stream => {

@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import { Search, Menu, X, Gamepad2 } from 'lucide-react';
+import { Search, Menu, X, Gamepad2, Crown } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Link } from 'react-router-dom';
+import useAuthStore from '../store/authStore';
 
 export default function Navbar({ onSearch }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const isAdmin = useAuthStore((state) => state.isAdmin);
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -48,7 +50,19 @@ export default function Navbar({ onSearch }) {
               <Button variant="ghost" className="btn-gaming">الرئيسية</Button>
             </Link>
             <Button variant="ghost" className="btn-gaming">المتابعين</Button>
-            <Button className="gradient-purple-cyan btn-gaming glow-hover-purple">تسجيل الدخول</Button>
+            {isAdmin && (
+              <Link to="/admin/dashboard">
+                <Button variant="outline" className="btn-gaming border-primary/50 hover:border-primary">
+                  <Crown className="w-4 h-4 ml-2" />
+                  لوحة التحكم
+                </Button>
+              </Link>
+            )}
+            {!isAdmin && (
+              <Link to="/admin/login">
+                <Button className="gradient-purple-cyan btn-gaming glow-hover-purple">تسجيل الدخول</Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
