@@ -76,13 +76,34 @@ export default function WatchPage() {
           <div className="lg:col-span-2 space-y-4">
             {/* Video Player */}
             <div className="relative aspect-video bg-card rounded-lg overflow-hidden border border-border glow-hover-purple">
-              <img 
-                src={stream.thumbnail}
-                alt={stream.title}
-                className="w-full h-full object-cover"
-              />
+              {stream.embedUrl && stream.isLive ? (
+                <iframe
+                  src={stream.embedUrl}
+                  className="w-full h-full"
+                  frameBorder="0"
+                  allowFullScreen
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  title={stream.title}
+                />
+              ) : (
+                <>
+                  <img 
+                    src={stream.thumbnail}
+                    alt={stream.title}
+                    className="w-full h-full object-cover"
+                  />
+                  {/* Play overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm hover:bg-black/20 transition-smooth cursor-pointer group">
+                    <div className="w-20 h-20 rounded-full bg-primary/90 flex items-center justify-center group-hover:scale-110 transition-smooth glow-purple">
+                      <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                </>
+              )}
               {/* Live indicator overlay */}
-              <div className="absolute top-4 left-4 flex items-center gap-3">
+              <div className="absolute top-4 left-4 flex items-center gap-3 z-10">
                 <div className="bg-red-600 text-white px-3 py-1 rounded-md font-semibold text-sm flex items-center gap-2 live-pulse">
                   <span className="w-2 h-2 bg-white rounded-full"></span>
                   مباشر
@@ -90,15 +111,6 @@ export default function WatchPage() {
                 <div className="bg-black/70 backdrop-blur-sm text-white px-3 py-1 rounded-md font-medium text-sm flex items-center gap-1">
                   <Users className="w-4 h-4" />
                   {stream.viewers.toLocaleString('ar-EG')}
-                </div>
-              </div>
-              
-              {/* Play overlay */}
-              <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm hover:bg-black/20 transition-smooth cursor-pointer group">
-                <div className="w-20 h-20 rounded-full bg-primary/90 flex items-center justify-center group-hover:scale-110 transition-smooth glow-purple">
-                  <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
                 </div>
               </div>
             </div>
