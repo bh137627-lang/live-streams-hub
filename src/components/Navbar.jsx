@@ -2,19 +2,31 @@ import { useState } from 'react';
 import { Search, Menu, X, Gamepad2, Crown } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuthStore from '../store/authStore';
+import { toast } from 'sonner';
 
 export default function Navbar({ onSearch }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const isAdmin = useAuthStore((state) => state.isAdmin);
+  const navigate = useNavigate();
+  const { isAdmin, login } = useAuthStore();
 
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchValue(value);
     if (onSearch) {
       onSearch(value);
+    }
+  };
+
+  const quickAdminLogin = () => {
+    const result = login('admin@streamhub.com', 'admin123');
+    if (result.success) {
+      toast.success('تم تسجيل الدخول بنجاح! 👑');
+      setTimeout(() => {
+        navigate('/admin/dashboard');
+      }, 500);
     }
   };
 
@@ -59,9 +71,15 @@ export default function Navbar({ onSearch }) {
               </Link>
             )}
             {!isAdmin && (
-              <Link to="/admin/login">
-                <Button className="gradient-purple-cyan btn-gaming glow-hover-purple">تسجيل الدخول</Button>
-              </Link>
+              <>
+                <Button 
+                  onClick={quickAdminLogin}
+                  className="gradient-purple-cyan btn-gaming glow-hover-purple"
+                >
+                  <Crown className="w-4 h-4 ml-2" />
+                  دخول المالك
+                </Button>
+              </>
             )}
           </div>
 

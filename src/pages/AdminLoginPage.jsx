@@ -10,19 +10,50 @@ import { toast } from 'sonner';
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const login = useAuthStore((state) => state.login);
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setLoading(true);
     
-    const result = login(email, password);
+    try {
+      const result = login(email, password);
+      
+      if (result.success) {
+        toast.success('مرحباً بك! تم تسجيل الدخول بنجاح');
+        setTimeout(() => {
+          navigate('/admin/dashboard');
+        }, 500);
+      } else {
+        toast.error(result.error);
+      }
+    } catch (error) {
+      toast.error('حدث خطأ أثناء تسجيل الدخول');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const quickLogin = () => {
+    setEmail('admin@streamhub.com');
+    setPassword('admin123');
+    setLoading(true);
     
-    if (result.success) {
-      toast.success('مرحباً بك! تم تسجيل الدخول بنجاح');
-      navigate('/admin/dashboard');
-    } else {
-      toast.error(result.error);
+    try {
+      const result = login('admin@streamhub.com', 'admin123');
+      
+      if (result.success) {
+        toast.success('مرحباً بك! تم تسجيل الدخول بنجاح');
+        setTimeout(() => {
+          navigate('/admin/dashboard');
+        }, 500);
+      }
+    } catch (error) {
+      toast.error('حدث خطأ');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -86,9 +117,22 @@ export default function AdminLoginPage() {
             type="submit"
             className="w-full gradient-purple-cyan glow-hover-purple btn-gaming"
             size="lg"
+            disabled={loading}
           >
             <Lock className="w-5 h-5 ml-2" />
-            تسجيل الدخول
+            {loading ? 'جاري التسجيل...' : 'تسجيل الدخول'}
+          </Button>
+
+          {/* Quick Login Button */}
+          <Button
+            type="button"
+            onClick={quickLogin}
+            className="w-full bg-secondary hover:bg-secondary/90 text-background btn-gaming"
+            size="lg"
+            disabled={loading}
+          >
+            <Crown className="w-5 h-5 ml-2" />
+            دخول سريع (المالك)
           </Button>
         </form>
 
